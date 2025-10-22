@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Chart } from 'chart.js/auto';
 import { getEmployees, getHolidays, getMyReport, getVacations } from '../api';
+import { HOLIDAY_REGION } from '../config';
 import StatCard from '../components/StatCard';
 
 const typeLabels = {
@@ -58,21 +59,25 @@ export default function DashboardPage() {
   }, []);
 
   useEffect(() => {
-    if (!employees.length) return;
     let active = true;
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date();
+    const todayDate = today.toISOString().slice(0, 10);
+    const todayStart = new Date(today);
+    todayStart.setHours(0, 0, 0, 0);
+    const currentYear = today.getFullYear();
 
-    getVacations({ from: today, to: today })
+    getVacations({ from: todayDate, to: todayDate })
       .then((vacations) => {
         if (!active) return;
         setTodayOff(
           vacations.map((vacation) => {
             const employee = employees.find((emp) => emp.id === vacation.employee_id);
             return {
-              label: `${employee?.first_name || 'Collaborateur'} - ${typeLabels[vacation.type] || vacation.type}`,
-              meta: vacation.start_date === vacation.end_date
-                ? vacation.start_date
-                : `${vacation.start_date} - ${vacation.end_date}`
+              label: `${employee?.first_name || 'Collaborateur'} - ${employee?.last_name || ''}`,
+              meta:
+                vacation.start_date === vacation.end_date
+                  ? vacation.start_date
+                  : `${vacation.start_date} - ${vacation.end_date}`
             };
           })
         );
@@ -81,10 +86,23 @@ export default function DashboardPage() {
         if (active) setError(err.message || 'Echec du chargement des conges');
       });
 
-    getHolidays({ region: 'FR', year: new Date().getFullYear() })
+    getHolidays({ region: HOLIDAY_REGION })
       .then((holidays) => {
         if (!active) return;
-        const upcoming = holidays.filter((holiday) => holiday.date >= today).slice(0, 5);
+        const upcoming = holidays
+          .map((holiday) => ({
+            ...holiday,
+            normalizedDate: new Date(holiday.date)
+          }))
+          .filter((holiday) =>
+            holiday.normalizedDate.getFullYear() === currentYear &&
+            holiday.normalizedDate.getTime() >= todayStart.getTime()
+          )
+          .slice(0, 5)
+          .map(({ normalizedDate, ...rest }) => ({
+            ...rest,
+            date: normalizedDate.toISOString().slice(0, 10)
+          }));
         setUpcomingHolidays(upcoming.map((holiday) => ({ label: holiday.name, meta: holiday.date })));
       })
       .catch((err) => {
@@ -142,15 +160,10 @@ export default function DashboardPage() {
       {error && <div className="card border border-red-200 bg-red-50 text-sm text-red-700 p-4">{error}</div>}
       {loading && <div className="card p-4 text-sm text-subtle">Chargement des collaborateurs...</div>}
 
-      <div className="grid md:grid-cols-4 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         <StatCard label="Collaborateurs" value={employees.length} />
         <StatCard label="Absents aujourd'hui" value={todayOff.length} sub="Toutes equipes confondues" />
         <StatCard label="Jours feries restants" value={upcomingHolidays.length} />
-        <StatCard
-          label="Jours restants"
-          value={report?.remaining ?? '-'}
-          sub={report ? `Annee ${report.year}` : 'Chargement...'}
-        />
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">

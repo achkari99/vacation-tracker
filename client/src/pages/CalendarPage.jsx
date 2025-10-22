@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import { deleteVacation, getEmployees, getHolidays, getVacations } from '../api';
+import { HOLIDAY_REGION } from '../config';
 import Modal from '../ui/Modal';
 import VacationForm from '../components/VacationForm';
 import Legend from '../components/Legend';
@@ -82,7 +83,7 @@ export default function CalendarPage() {
     }
     try {
       const year = new Date(startStr).getFullYear();
-      const hs = await getHolidays({ region: 'FR', year });
+      const hs = await getHolidays({ region: HOLIDAY_REGION, year });
       setHolidays(hs);
     } catch (err) {
       setEventError((prev) => prev || err.message || 'Echec du chargement des jours feries');
