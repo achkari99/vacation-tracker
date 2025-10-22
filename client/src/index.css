@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Typography & smoothness */
+@layer base {
+  html { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+  body { @apply bg-surface text-ink antialiased; }
+}
+
+/* Stylish card */
+.card {
+  @apply bg-card rounded-2xl shadow-soft border border-line;
+}
+.card-hover:hover { @apply shadow-hover transition-shadow; }
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-medium transition-all;
+}
+.btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700 active:scale-[0.99];
+}
+.btn-ghost {
+  @apply btn hover:bg-brand-50;
+}
+.btn-outline {
+  @apply btn border border-line bg-white hover:bg-surface;
+}
+
+/* Inputs */
+.input {
+  @apply w-full px-3 py-2 rounded-xl border border-line bg-white focus:outline-none focus:ring-2 focus:ring-brand-400;
+}
+.select { @apply input; }
+.textarea { @apply input min-h-[84px]; }
+
+/* Badges for leave types */
+.badge { @apply text-xs font-semibold px-2.5 py-1 rounded-full border; }
+.badge-annual { @apply bg-brand-50 text-brand-700 border-brand-200; }
+.badge-sick { @apply bg-green-50 text-green-700 border-green-200; }
+.badge-unpaid { @apply bg-orange-50 text-orange-700 border-orange-200; }
+.badge-parental { @apply bg-pink-50 text-pink-700 border-pink-200; }
+.badge-comp { @apply bg-purple-50 text-purple-700 border-purple-200; }
+.badge-other { @apply bg-gray-50 text-gray-700 border-gray-200; }
+
+/* Calendar tweaks */
+.fc .fc-daygrid-day-top { @apply px-2 pt-2; }
+.fc .fc-toolbar-title { @apply text-xl md:text-2xl font-semibold; }
+.fc .fc-button-primary { @apply bg-brand-600 border-brand-600 hover:bg-brand-700; }
+.fc .fc-list-empty { @apply text-subtle; }
+
+/* Weekend shading */
+.is-weekend { background-color: #f1f5f9; }
+
+/* Smooth elevation on hover for interactive cards */
+.hover-elevate { @apply transition-transform duration-200 hover:-translate-y-0.5; }
