@@ -2,8 +2,8 @@
   "name": "vacation-tracker",
   "private": true,
   "scripts": {
-    "build": "cd client && npm run build",
-    "dev": "cd client && npm run dev",
-    "preview": "cd client && npm run preview"
+    "build": "npm --prefix client run build",
+    "dev": "npm --prefix client run dev",
+    "preview": "npm --prefix client run preview"
   }
 }
