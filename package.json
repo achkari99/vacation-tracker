@@ -1,12 +1,9 @@
 {
   "name": "vacation-tracker",
   "private": true,
-  "workspaces": [
-    "client"
-  ],
   "scripts": {
-    "build": "npm run build --workspace client",
-    "dev": "npm run dev --workspace client",
-    "preview": "npm run preview --workspace client"
+    "build": "cd client && npm run build",
+    "dev": "cd client && npm run dev",
+    "preview": "cd client && npm run preview"
   }
 }
