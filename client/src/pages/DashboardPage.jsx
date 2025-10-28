@@ -175,17 +175,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="card p-6">
-        <div className="font-semibold text-lg mb-2">Actions rapides</div>
-        <div className="flex flex-wrap gap-3">
-          <a href="/calendar" className="btn-primary">
-            Ouvrir le calendrier
-          </a>
-          <a href="/profiles" className="btn-outline">
-            Consulter les profils
-          </a>
-        </div>
-      </div>
+
     </div>
   );
 }

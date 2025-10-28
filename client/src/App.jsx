@@ -11,9 +11,9 @@ function Sidebar() {
 
   return (
     <aside className="hidden md:flex flex-col w-64 p-4 gap-2">
-      <div className="px-4 py-3">
-        <div className="text-2xl font-bold">Acme RH</div>
-        <div className="text-subtle text-sm">Suivi des conges</div>
+      <div className="px-4 py-3 flex items-center gap-3">
+        <img src="/20251028_1342_Vacation Tracker Logo_simple_compose_01k8nddprvfvt8qff3cbrq59ck.png" alt="Vacation Tracker Logo" className="h-10 w-auto" />
+        <div className="text-subtle font-bold text-base">Suivi des conges</div>
       </div>
       <NavLink className={navClasses} to="/">
         Tableau de bord
