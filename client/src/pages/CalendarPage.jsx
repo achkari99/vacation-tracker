@@ -160,6 +160,7 @@ export default function CalendarPage() {
           plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{ left: 'title', center: '', right: 'today prev,next dayGridMonth,listWeek' }}
+          buttonText={{ today: 'aujourd\'hui', month: 'mois', list: 'liste' }}
           height="75vh"
           selectable
           weekends
